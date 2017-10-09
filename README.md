@@ -12,15 +12,15 @@
 
 ## Introduction
 
-_Running command `roly` it will compile `src/index.js` to:_
+Running command `roly` it will compile `src/index.js` to:
 
 ```bash
 dist/[name].common.js   # commonjs format
 ```
 
-_The `[name]` is `name` in `package.json` or `index` as fallback._
+The `[name]` is `name` in `package.json` or `index` as fallback.
 
-_You can also generate UMD bundle and compress it with: `roly --format umd --compress umd`, then you get:_
+You can also generate UMD bundle and compress it with: `roly --format umd --compress umd`, then you get:
 
 ```bash
 dist/[name].js          # umd format
@@ -28,7 +28,7 @@ dist/[name].min.js      # compressed umd format
 dist/[name].min.js.map  # compressed file will automatically get sourcemaps
 ```
 
-_Not enough? You can have them all in one command `roly --format cjs,es,umd --compress umd`:_
+Not enough? You can have them all in one command `roly --format cjs,es,umd --compress umd`:
 
 ```bash
 dist/[name].js          # umd format
@@ -38,7 +38,7 @@ dist/[name].common.js   # commonjs format
 dist/[name].es.js       # es-modules format
 ```
 
-**Note:** In `UMD` format all third-party libraries will be bundled in dist files, while in other formats they are excluded.
+**Note:** _In `UMD` format all third-party libraries will be bundled in dist files, while in other formats they are excluded._
 
 ## Install
 
