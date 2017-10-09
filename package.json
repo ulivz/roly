@@ -18,7 +18,7 @@
     "test:update:napshot": "cross-env BABEL_ENV=test jest -u",
     "build": "babel src --out-dir lib",
     "dev": "babel src --out-dir lib --watch",
-    "lint": "xo",
+    "lint": "xo src/*.js",
     "fix": "npm run lint -- --fix",
     "prepublish": "npm run build"
   },

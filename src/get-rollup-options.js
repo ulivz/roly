@@ -88,9 +88,10 @@ export default function(options, format) {
   if (js) {
     let jsPlugin
     try {
-      jsPlugin = js === 'buble'
-        ? require('rollup-plugin-buble')
-        : req(`rollup-plugin-${js}`)
+      jsPlugin =
+        js === 'buble'
+          ? require('rollup-plugin-buble')
+          : req(`rollup-plugin-${js}`)
       plugins.push(jsPlugin(jsOptions))
     } catch (err) {
       if (/missing path/.test(err.message)) {
@@ -143,9 +144,10 @@ export default function(options, format) {
     if (typeof options.banner === 'string') {
       banner = options.banner
     } else {
-      const pkg = typeof options.banner === 'object'
-        ? { ...options.pkg, ...options.banner }
-        : options.pkg
+      const pkg =
+        typeof options.banner === 'object'
+          ? { ...options.pkg, ...options.banner }
+          : options.pkg
 
       const name = pkg.name
 
@@ -158,9 +160,10 @@ export default function(options, format) {
       const version = pkg.version ? `v${pkg.version}` : ''
       const year = pkg.year || new Date().getFullYear()
 
-      let author = typeof pkg.author === 'string'
-        ? pkg.author
-        : typeof pkg.author === 'object' ? stringifyAuthor(pkg.author) : ''
+      let author =
+        typeof pkg.author === 'string'
+          ? pkg.author
+          : typeof pkg.author === 'object' ? stringifyAuthor(pkg.author) : ''
       author = author ? author : ''
 
       const license = pkg.license || ''

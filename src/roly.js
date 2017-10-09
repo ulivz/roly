@@ -4,9 +4,8 @@ import chalk from 'chalk'
 import merge from 'lodash.merge'
 import getRollupOptions from './get-rollup-options'
 import getConfig from './get-config'
-import { handleRollupError } from './utils'
+import { handleRollupError, resolve } from './utils'
 import log from './log'
-import { cwd, resolve } from './utils'
 
 export default function(options = {}) {
   const cwd = options.cwd

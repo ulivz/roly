@@ -14,7 +14,8 @@ cli
     alias: 'c'
   })
   .option('cwd', {
-    desc: 'Customized working directoy, default is process.cwd(), should be a abosulte path',
+    desc:
+      'Customized working directoy, default is process.cwd(), should be a abosulte path',
     alias: 'w'
   })
   .option('watch', {

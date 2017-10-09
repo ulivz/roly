@@ -25,12 +25,16 @@ function readInPkg(file) {
 }
 
 // Read => roly.config.js & package.json
-export default function (file = 'roly.config.js', userCwd = process.cwd()) {
-  let rolyConfig, cwdConfig, pkgConfig = readInPkg(resolve(userCwd, 'package.json'))
+export default function(file = 'roly.config.js', userCwd = process.cwd()) {
+  let rolyConfig
+  let cwdConfig
+  let pkgConfig = readInPkg(resolve(userCwd, 'package.json'))
 
-  if (fs.existsSync(file)) { // absolute path
+  if (fs.existsSync(file)) {
+    // absolute path
     rolyConfig = file
-  } else if (fs.existsSync(cwdConfig = cwd(file))) { // relative path
+  } else if (fs.existsSync((cwdConfig = cwd(file)))) {
+    // relative path
     rolyConfig = cwdConfig
   } else {
     return pkgConfig
@@ -43,5 +47,4 @@ export default function (file = 'roly.config.js', userCwd = process.cwd()) {
   }
 
   return Object.assign(rolyConfig, pkgConfig)
-
 }
