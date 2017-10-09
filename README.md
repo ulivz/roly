@@ -1,5 +1,5 @@
 <p align="center">
-<img width="886" alt="2017-07-08 12 04 59" src="https://user-images.githubusercontent.com/8784712/27982511-c77326d6-63d5-11e7-90fc-5d162d52cd7a.png">
+![](logo.png)
 </p>
 
 <p align="center">
