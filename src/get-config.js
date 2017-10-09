@@ -1,5 +1,5 @@
 import fs from 'fs'
-import { cwd } from './utils'
+import { cwd, resolve } from './utils'
 
 function readInPkg(file) {
   try {
@@ -25,17 +25,23 @@ function readInPkg(file) {
 }
 
 // Read => roly.config.js & package.json
-export default function (file = 'roly.config.js') {
-  let config, cwdConfig
-  const pkgConfig = readInPkg(cwd('package.json'))
-  console.log(fs.existsSync(file))
+export default function (file = 'roly.config.js', userCwd = process.cwd()) {
+  let rolyConfig, cwdConfig, pkgConfig = readInPkg(resolve(userCwd, 'package.json'))
+
   if (fs.existsSync(file)) { // absolute path
-    console.log('XXXX')
-    config = file
-  } else if (cwdConfig = fs.existsSync(cwd(file))) { // relative path
-    config = cwdConfig
+    rolyConfig = file
+  } else if (fs.existsSync(cwdConfig = cwd(file))) { // relative path
+    rolyConfig = cwdConfig
   } else {
     return pkgConfig
   }
-  return Object.assign(require(config), pkgConfig)
+
+  rolyConfig = require(rolyConfig)
+
+  if (userCwd) {
+    pkgConfig = readInPkg(resolve(userCwd, 'package.json'))
+  }
+
+  return Object.assign(rolyConfig, pkgConfig)
+
 }

@@ -6,9 +6,11 @@ import getRollupOptions from './get-rollup-options'
 import getConfig from './get-config'
 import { handleRollupError } from './utils'
 import log from './log'
+import { cwd, resolve } from './utils'
 
 export default function(options = {}) {
-  const userConfig = getConfig(options.config)
+  const cwd = options.cwd
+  const userConfig = getConfig(options.config, cwd)
 
   options = merge(
     {
@@ -25,6 +27,12 @@ export default function(options = {}) {
   // for backward-compat
   if (options.entry) {
     options.input = options.entry
+  }
+
+  // for custom cwd
+  if (cwd) {
+    options.input = resolve(cwd, options.input)
+    options.outDir = resolve(cwd, options.outDir)
   }
 
   let formats = options.format

@@ -12,7 +12,7 @@ import getRollupOptions from '../src/get-rollup-options'
 import log from '../src/log'
 
 function cwd(filePath) {
-  return path.join(__dirname, filePath || '')
+  return path.resolve(__dirname, filePath || '')
 }
 
 function Promisify(fn, ...args) {
@@ -162,13 +162,14 @@ test('it inserts banner', async () => {
   // Skip this for now
   // Maybe add `baseDir` option to allow roly to load package.json from a custom dir
   // banner: Boolean
-  // const [es] = await roly({
-  //   entry: cwd('fixtures/entry.js'),
-  //   format: 'es',
-  //   exports: 'named',
-  //   banner: true // banner info from package.json
-  // })
-  // expect(es.code).toMatchSnapshot()
+  const es = await roly({
+    cwd: cwd('../'), // custom the working directory
+    entry: cwd('fixtures/entry.js'),
+    format: 'es',
+    exports: 'named',
+    banner: true // banner info from package.json
+  })
+  expect(es.code).toMatchSnapshot()
 
   // banner: Object
   const { cjs } = await roly({

@@ -85,7 +85,9 @@ exports.foo = foo;
 "
 `;
 
-exports[`it inserts banner 1`] = `
+exports[`it inserts banner 1`] = `undefined`;
+
+exports[`it inserts banner 2`] = `
 "/*!
  * roly v5.2.0
  * (c) 2017-present ulivz
@@ -103,7 +105,7 @@ exports.version = version;
 "
 `;
 
-exports[`it inserts banner 2`] = `
+exports[`it inserts banner 3`] = `
 "/*! rolyroly */
 (function (global, factory) {
 	typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
@@ -123,7 +125,7 @@ Object.defineProperty(exports, '__esModule', { value: true });
 "
 `;
 
-exports[`it inserts banner 3`] = `
+exports[`it inserts banner 4`] = `
 "/*! rolyroly */
 !function(e,t){\\"object\\"==typeof exports&&\\"undefined\\"!=typeof module?t(exports):\\"function\\"==typeof define&&define.amd?define([\\"exports\\"],t):t(e.index={})}(this,function(e){\\"use strict\\";e.default=1,e.version=\\"__VERSION__\\",Object.defineProperty(e,\\"__esModule\\",{value:!0})});
 "

@@ -13,6 +13,10 @@ cli
     desc: 'Path to config file',
     alias: 'c'
   })
+  .option('cwd', {
+    desc: 'Customized working directoy, default is process.cwd(), should be a abosulte path',
+    alias: 'w'
+  })
   .option('watch', {
     desc: 'Run in watch mode',
     alias: 'w'
