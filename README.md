@@ -5,9 +5,9 @@
 <p align="center">
 <a href="https://npmjs.com/package/roly"><img src="https://img.shields.io/npm/v/roly.svg?style=flat-square" alt="NPM version"></a>
 <a href="https://npmjs.com/package/roly"><img src="https://img.shields.io/npm/dm/roly.svg?style=flat-square" alt="NPM downloads"></a>
-<a href="https://circleci.com/gh/egoist/roly/tree/master"><img src="https://img.shields.io/circleci/project/egoist/roly/master.svg?style=flat-square"></a>
-<a href="https://codecov.io/gh/egoist/roly"><img src="https://img.shields.io/codecov/c/github/egoist/roly.svg?style=flat-square"></a>
-<a href="https://github.com/egoist/donate"><img src="https://img.shields.io/badge/$-donate-ff69b4.svg?maxAge=2592000&amp;style=flat-square" alt="donate"></a>
+<a href="https://circleci.com/gh/ulivz/roly/tree/master"><img src="https://img.shields.io/circleci/project/ulivz/roly/master.svg?style=flat-square"></a>
+<a href="https://codecov.io/gh/ulivz/roly"><img src="https://img.shields.io/codecov/c/github/ulivz/roly.svg?style=flat-square"></a>
+<a href="https://github.com/ulivz/donate"><img src="https://img.shields.io/badge/$-donate-ff69b4.svg?maxAge=2592000&amp;style=flat-square" alt="donate"></a>
 </p>
 
 ## Introduction
