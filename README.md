@@ -1,5 +1,5 @@
 <p align="center">
-![](logo.png)
+<img src="https://raw.githubusercontent.com/ulivz/roly/master/logo.png" width="886" height="" style=""/>
 </p>
 
 <p align="center">
