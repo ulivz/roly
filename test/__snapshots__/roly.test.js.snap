@@ -1,0 +1,60 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`option - banner banner option = Boolean 1`] = `undefined`;
+
+exports[`option - banner banner option = Object 1`] = `
+"/*!
+ * roly v5.2.0
+ * (c) 2017-present ulivz
+ * Released under the MIT License.
+ */
+'use strict';
+
+Object.defineProperty(exports, '__esModule', { value: true });
+
+var a = 1;
+var version = '__VERSION__';
+
+exports['default'] = a;
+exports.version = version;
+"
+`;
+
+exports[`option - banner banner option = String 1`] = `
+"/*! rolyroly */
+(function (global, factory) {
+	typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
+	typeof define === 'function' && define.amd ? define(['exports'], factory) :
+	(factory((global.index = {})));
+}(this, (function (exports) { 'use strict';
+
+var a = 1;
+var version = '__VERSION__';
+
+exports['default'] = a;
+exports.version = version;
+
+Object.defineProperty(exports, '__esModule', { value: true });
+
+})));
+"
+`;
+
+exports[`option - banner banner option = String 2`] = `
+"/*! rolyroly */
+!function(e,t){\\"object\\"==typeof exports&&\\"undefined\\"!=typeof module?t(exports):\\"function\\"==typeof define&&define.amd?define([\\"exports\\"],t):t(e.index={})}(this,function(e){\\"use strict\\";e.default=1,e.version=\\"__VERSION__\\",Object.defineProperty(e,\\"__esModule\\",{value:!0})});
+"
+`;
+
+exports[`roly it replaces string using rollup-plugin-replace 1`] = `
+"'use strict';
+
+Object.defineProperty(exports, '__esModule', { value: true });
+
+var a = 1;
+var version = '0.0.0';
+
+exports['default'] = a;
+exports.version = version;
+"
+`;

@@ -4,11 +4,10 @@ import chalk from 'chalk'
 import merge from 'lodash.merge'
 import getRollupOptions from './get-rollup-options'
 import getConfig from './get-config'
-import {handleRollupError, resolve} from './utils'
+import { handleRollupError, resolvepath } from './utils'
 import log from './log'
 
-export default function (options = {}) {
-
+export default function(options = {}) {
   return new Promise(resolve => {
     const cwd = options.cwd
     const userConfig = getConfig(options.config, cwd)
@@ -32,8 +31,8 @@ export default function (options = {}) {
 
     // for custom cwd
     if (cwd) {
-      options.input = resolve(cwd, options.input)
-      options.outDir = resolve(cwd, options.outDir)
+      options.input = resolvepath(cwd, options.input)
+      options.outDir = resolvepath(cwd, options.outDir)
     }
 
     let formats = options.format
@@ -66,11 +65,11 @@ export default function (options = {}) {
 
     const allFormats = [...formats, ...options.compress]
     resolve(allFormats)
-
   }).then(allFormats => {
     return Promise.all(
       allFormats.map(format => {
         const rollupOptions = getRollupOptions(options, format)
+
         if (options.watch) {
           let init
           const watcher = rollup.watch(rollupOptions)
@@ -82,13 +81,11 @@ export default function (options = {}) {
                   init = true
                 }
               },
-              BUNDLE_START() {
-              },
+              BUNDLE_START() {},
               BUNDLE_END() {
                 log(format, 'bundled', chalk.green)
               },
-              END() {
-              },
+              END() {},
               ERROR() {
                 handleRollupError(event.error)
               },
@@ -101,13 +98,13 @@ export default function (options = {}) {
             })(event.code)
           })
         }
+
         return rollup.rollup(rollupOptions).then(bundle => {
           if (options.write === false)
             return bundle.generate(rollupOptions.output)
           return bundle.write(rollupOptions.output)
         })
       })
-
     ).then(result => {
       return result.reduce((res, next, i) => {
         res[allFormats[i]] = next
@@ -115,5 +112,4 @@ export default function (options = {}) {
       }, {})
     })
   })
-
 }
