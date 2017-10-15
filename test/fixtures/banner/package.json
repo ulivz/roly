@@ -15,7 +15,7 @@
   "scripts": {
     "test": "cross-env BABEL_ENV=test jest --env node && npm run lint && npm run build",
     "test:cov": "cross-env BABEL_ENV=test jest --env node --coverage && xo src/*.js",
-    "test:update:snapshot": "cross-env BABEL_ENV=test jest -u",
+    "test:update:napshot": "cross-env BABEL_ENV=test jest -u",
     "build": "babel src --out-dir lib",
     "dev": "babel src --out-dir lib --watch",
     "lint": "xo src/*.js",

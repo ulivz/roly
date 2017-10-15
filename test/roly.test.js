@@ -1,5 +1,4 @@
 import path from 'path'
-import rm from 'rimraf'
 import fs from 'fs-extra'
 import switchy from 'switchy'
 import {EventEmitter} from 'events'
@@ -13,7 +12,6 @@ beforeAll(() => {
 })
 
 afterAll(() => {
-  rm.sync(cwd('dist*'))
   process.chdir(prevCwd)
 })
 
@@ -26,7 +24,7 @@ describe('roly', () => {
   })
 
   /**
-   * When package's name === @name/package-name, then module's file name === package-name
+   * When package.json's name === @name/package-name, then module's file name === package-name
    */
   test('it should remove the name prefix from a scoped package name', async () => {
     const CWD = 'fixtures/scoped'
@@ -34,10 +32,25 @@ describe('roly', () => {
       cwd: cwd(CWD),
       entry: cwd('fixtures/entry.js'),
       exports: 'named',
-      outDir: 'dist-scoped'
+      outDir: 'dist'
     })
-    const files = await fs.readdir(cwd(`${CWD}/dist-scoped`))
+    const files = await fs.readdir(cwd(`${CWD}/dist`))
     expect(files).toEqual(['package-name.common.js'])
+  })
+
+  /**
+   * When package's name and roly.filename exist at the same time, use roly.filename
+   */
+  test('it should use the roly.filename', async () => {
+    const CWD = 'fixtures/filename'
+    await roly({
+      cwd: cwd(CWD),
+      entry: cwd('fixtures/entry.js'),
+      exports: 'named',
+      outDir: 'dist'
+    })
+    const files = await fs.readdir(cwd(`${CWD}/dist`))
+    expect(files).toEqual(['roly.common.js'])
   })
 
   test('should generate all bundles', async () => {
@@ -110,16 +123,17 @@ describe('roly', () => {
 
 
 describe('option - banner', () => {
-
   test('banner option = Boolean', async () => {
+    const CWD = 'fixtures/banner'
     const es = await roly({
-      cwd: cwd('../'), // custom the working directory
+      cwd: cwd(CWD), // custom the working directory
       entry: cwd('fixtures/entry.js'),
       format: 'es',
       exports: 'named',
       banner: true // banner info from package.json
     })
     expect(es.code).toMatchSnapshot()
+
   })
 
   test('banner option = Object', async () => {
