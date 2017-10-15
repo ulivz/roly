@@ -4,13 +4,13 @@ import chalk from 'chalk'
 import merge from 'lodash.merge'
 import getRollupOptions from './get-rollup-options'
 import getConfig from './get-config'
-import { handleRollupError, resolvepath } from './utils'
+import { handleRollupError, joinPath, isAbsolutePath } from './utils'
 import log from './log'
 
 export default function(options = {}) {
   return new Promise(resolve => {
-    const cwd = options.cwd
-    const userConfig = getConfig(options.config, cwd)
+    const baseDir = options.baseDir
+    const userConfig = getConfig(options.config, baseDir)
 
     options = merge(
       {
@@ -30,9 +30,13 @@ export default function(options = {}) {
     }
 
     // for custom cwd
-    if (cwd) {
-      options.input = resolvepath(cwd, options.input)
-      options.outDir = resolvepath(cwd, options.outDir)
+    if (baseDir) {
+      if (!isAbsolutePath(options.input)) {
+        options.input = joinPath(baseDir, options.input)
+      }
+      if (!isAbsolutePath(options.outDir)) {
+        options.outDir = joinPath(baseDir, options.outDir)
+      }
     }
 
     let formats = options.format

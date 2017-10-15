@@ -1,10 +1,10 @@
 # roly
 
-Bundling JavaScript library could be easy and interesting.
+JavasScript happiness bundler
 
 ## Introduction
 
-With one line of code, you'll have `commonjs` `umd` and `compressed` umd version of your library:
+With only one line of code, you'll have `commonjs` `umd` and `compressed` umd version of your library:
 
 ```bash
 roly --format cjs --format umd --compress umd
@@ -19,6 +19,8 @@ roly --format cjs --format umd --compress umd
 
 ```bash
 yarn add roly --dev
+# or  
+npm install roly -D
 ```
 
 Then you can use it via `yarn roly` in your project or configure it in your npm scripts.

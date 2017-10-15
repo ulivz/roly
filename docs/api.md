@@ -16,21 +16,21 @@ roly(options).catch(err => {
 
 ### input
 
-Type: `string`<br>
-Default: `src/index.js`
+- Type: `string`
+- Default: `src/index.js`
 
 Input file.
 
 ### filename
 
-Type: `string`
+- Type: `string`
 
 The filename of bundled files, the default value is package name in `package.json`. If no package.json was found, then fallbacks to `index`.
 
 ### format
 
-Type: `string` or `array`<br>
-Default: `['cjs']`
+- Type: `string` or `array`
+- Default: `['cjs']`
 
 Specific the bundle format, it could be a string like `'umd'` or multiple targets `['umd', 'cjs']`, it's useful if you want to support multiple standards. Default value is `['cjs']`.
 
@@ -58,6 +58,29 @@ Type: `string`<br>
 Default: `dist`
 
 Output directory.
+
+### baseDir
+
+Type: `string`<br>
+Default: `process.cwd()`
+
+Customized working directoy. By default, the option `input` and `outDir` will be relative to current `process.cwd()`, also, including roly's finding `package.json`. but sometimes we want to change the default behavior and don't want to reach it with using `process.chdir()`. it's time to use `baseDir`. for example:
+
+Your are in `/root` (`process.cwd() = '/root'`), and your package is in `/root/mypkg`. entry file is `/root/mypkg/src/main.js`, expected output directory is `/root/mypkg/lib`.
+
+then, you can config like:
+
+```js
+module.exports = {
+  baseDir: 'mypkg',
+  input: 'src/main.js',
+  outDir: 'lib'
+}
+```
+
+<p class="tip">
+It is worth noting that when `input` is out of `baseDir` and you still used the `relative` path, entry will not be resolved and error will be throw. absolute paths can be used to solve this problem.
+</p>
 
 ### compress
 

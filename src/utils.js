@@ -7,7 +7,9 @@ export function cwd(...args) {
   return path.resolve(process.cwd(), ...args)
 }
 
-export const resolvepath = path.resolve
+export const joinPath = path.join
+export const isAbsolutePath = path.isAbsolute
+export const resolvePath = path.resolve
 
 export function handleRollupError(error) {
   log(error.plugin || 'error', error.message, chalk.red)

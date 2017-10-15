@@ -27,14 +27,13 @@ describe('roly', () => {
    * When package.json's name === @name/package-name, then module's file name === package-name
    */
   test('it should remove the name prefix from a scoped package name', async () => {
-    const CWD = 'fixtures/scoped'
     await roly({
-      cwd: cwd(CWD),
+      baseDir: 'fixtures/scoped',
       entry: cwd('fixtures/entry.js'),
       exports: 'named',
       outDir: 'dist'
     })
-    const files = await fs.readdir(cwd(`${CWD}/dist`))
+    const files = await fs.readdir(cwd(`fixtures/scoped/dist`))
     expect(files).toEqual(['package-name.common.js'])
   })
 
@@ -42,20 +41,19 @@ describe('roly', () => {
    * When package's name and roly.filename exist at the same time, use roly.filename
    */
   test('it should use the roly.filename', async () => {
-    const CWD = 'fixtures/filename'
     await roly({
-      cwd: cwd(CWD),
+      baseDir: 'fixtures/filename',
       entry: cwd('fixtures/entry.js'),
       exports: 'named',
       outDir: 'dist'
     })
-    const files = await fs.readdir(cwd(`${CWD}/dist`))
+    const files = await fs.readdir(cwd(`fixtures/filename/dist`))
     expect(files).toEqual(['roly.common.js'])
   })
 
   test('should generate all bundles', async () => {
     const result = await roly({
-      entry: cwd('fixtures/entry.js'),
+      entry: 'fixtures/entry.js',
       format: 'all',
       exports: 'named',
       write: false
@@ -65,7 +63,7 @@ describe('roly', () => {
 
   test('it replaces string using rollup-plugin-replace', async () => {
     const { cjs } = await roly({
-      entry: cwd('fixtures/entry.js'),
+      entry: 'fixtures/entry.js',
       exports: 'named',
       replace: {
         __VERSION__: '0.0.0'
@@ -89,7 +87,7 @@ describe('roly', () => {
 
   test('should work on watch mode', async () => {
     const watchers = await roly({
-      entry: cwd('fixtures/entry.js'),
+      entry: 'fixtures/entry.js',
       exports: 'named',
       watch: true
     })
@@ -124,9 +122,8 @@ describe('roly', () => {
 
 describe('option - banner', () => {
   test('banner option = Boolean', async () => {
-    const CWD = 'fixtures/banner'
     const es = await roly({
-      cwd: cwd(CWD), // custom the working directory
+      baseDir: 'fixtures/banner', // custom the working directory
       entry: cwd('fixtures/entry.js'),
       format: 'es',
       exports: 'named',
@@ -138,7 +135,7 @@ describe('option - banner', () => {
 
   test('banner option = Object', async () => {
     const { cjs } = await roly({
-      entry: cwd('fixtures/entry.js'),
+      entry: 'fixtures/entry.js',
       format: 'cjs',
       exports: 'named',
       banner: {
@@ -154,7 +151,7 @@ describe('option - banner', () => {
 
   test('banner option = String', async () => {
     const { umd, umdCompress } = await roly({
-      entry: cwd('fixtures/entry.js'),
+      entry: 'fixtures/entry.js',
       format: 'umd',
       compress: true,
       exports: 'named',

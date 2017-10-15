@@ -8,15 +8,23 @@ const cli = cac()
 
 update({ pkg: cli.pkg }).notify()
 
+cli.command('*', 'Bundle with roly', (input, flags) => {
+  const options = Object.assign(
+    {
+      input: input[0]
+    },
+    flags
+  )
+
+  return roly(options).catch(err => {
+    handleRollupError(err)
+  })
+})
+
 cli
   .option('config', {
     desc: 'Path to config file',
     alias: 'c'
-  })
-  .option('cwd', {
-    desc:
-      'Customized working directoy, default is process.cwd(), should be a abosulte path',
-    alias: 'w'
   })
   .option('watch', {
     desc: 'Run in watch mode',
@@ -30,6 +38,10 @@ cli
     desc: 'The output directory',
     alias: 'd'
   })
+  .option(
+    'base-dir',
+    "Customized base directory, default is './', should be a relative path"
+  )
   .option('format', 'Bundle format, array of string')
   .option('module-name', 'The module name for UMD builds')
   .option('map', 'Generate sourcemap, boolean or `inline`')
@@ -52,18 +64,5 @@ cli
     'banner',
     'Content to insert to the top of bundle file, boolean or string or object'
   )
-
-cli.command('*', 'Bundle with roly', (input, flags) => {
-  const options = Object.assign(
-    {
-      input: input[0]
-    },
-    flags
-  )
-
-  return roly(options).catch(err => {
-    handleRollupError(err)
-  })
-})
 
 cli.parse()
