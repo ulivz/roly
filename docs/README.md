@@ -1,6 +1,6 @@
 # roly
 
-JavasScript happiness bundler
+JavasScript happiness bundler.
 
 ## Introduction
 
