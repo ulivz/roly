@@ -1,18 +1,37 @@
+import fs from 'fs'
 import * as rollup from 'rollup'
 import switchy from 'switchy'
 import chalk from 'chalk'
-import merge from 'lodash.merge'
 import getRollupOptions from './get-rollup-options'
-import getConfig from './get-config'
-import { handleRollupError, joinPath, isAbsolutePath } from './utils'
+import { cwd, handleRollupError, joinPath, isAbsolutePath } from './utils'
 import log from './log'
 
-export default function(options = {}) {
-  return new Promise(resolve => {
-    const baseDir = options.baseDir
-    const userConfig = getConfig(options.config, baseDir)
+function readInPkg(file) {
+  try {
+    const pkg = require(file)
+    const roly = pkg.roly || {}
+    if (pkg.name && !roly.filename) {
+      const { name } = pkg
+      roly.filename = name.startsWith('@')
+        ? name.slice(name.lastIndexOf('/') + 1)
+        : name
+    }
+    roly.pkg = pkg
+    return roly
+  } catch (err) {
+    if (err.code === 'MODULE_NOT_FOUND') {
+      return {
+        // Ensure pkg in options
+        pkg: {}
+      }
+    }
+    throw err
+  }
+}
 
-    options = merge(
+function singleRoly(options = {}) {
+  return new Promise(resolve => {
+    options = Object.assign(
       {
         input: './src/index.js',
         format: ['cjs'],
@@ -20,7 +39,6 @@ export default function(options = {}) {
         filename: 'index',
         compress: []
       },
-      userConfig,
       options
     )
 
@@ -30,6 +48,7 @@ export default function(options = {}) {
     }
 
     // for custom cwd
+    const baseDir = options.baseDir
     if (baseDir) {
       if (!isAbsolutePath(options.input)) {
         options.input = joinPath(baseDir, options.input)
@@ -116,4 +135,26 @@ export default function(options = {}) {
       }, {})
     })
   })
+}
+
+export default function roly(options = {}) {
+  const baseDir = options.baseDir || ''
+  const configFileName = options.config || 'roly.config.js'
+  const configFilePath = cwd(joinPath(baseDir, configFileName))
+
+  let rolyConfig = {}
+  if (fs.existsSync(configFilePath)) {
+    rolyConfig = require(configFilePath)
+  }
+
+  const pkgConfig = readInPkg(cwd(joinPath(baseDir, 'package.json')))
+
+  if (Array.isArray(rolyConfig)) {
+    return Promise.all(
+      rolyConfig.map(rolyOptions => {
+        return singleRoly(Object.assign(options, pkgConfig, rolyOptions))
+      })
+    )
+  }
+  return singleRoly(Object.assign(options, rolyConfig, pkgConfig))
 }

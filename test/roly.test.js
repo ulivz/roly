@@ -85,6 +85,12 @@ describe('roly', () => {
     })
   })
 
+  test('should work for multiple instances', () => {
+    return roly({
+      baseDir: 'fixtures/multiple-instances'
+    })
+  })
+
   test('should work on watch mode', async () => {
     const watchers = await roly({
       entry: 'fixtures/entry.js',
