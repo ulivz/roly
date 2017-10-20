@@ -3,8 +3,16 @@ import * as rollup from 'rollup'
 import switchy from 'switchy'
 import chalk from 'chalk'
 import getRollupOptions from './get-rollup-options'
-import { cwd, handleRollupError, joinPath, isAbsolutePath } from './utils'
 import log from './log'
+import {
+  cwd,
+  isString,
+  isArray,
+  splitStrByComma,
+  handleRollupError,
+  joinPath,
+  isAbsolutePath
+} from './utils'
 
 function readInPkg(file) {
   try {
@@ -47,7 +55,7 @@ function singleRoly(options = {}) {
       options.input = options.entry
     }
 
-    // for custom cwd
+    // for custom base dir
     const baseDir = options.baseDir
     if (baseDir) {
       if (!isAbsolutePath(options.input)) {
@@ -58,32 +66,27 @@ function singleRoly(options = {}) {
       }
     }
 
+    // Ensure format is an array
     let formats = options.format
-
-    if (typeof formats === 'string') {
-      if (formats === 'all') {
-        formats = ['cjs', 'umd', 'es']
-      } else if (formats.indexOf(',') > -1) {
-        formats = formats.split(',').map(v => v.trim())
-      } else {
-        formats = [formats]
-      }
-    } else if (!Array.isArray(formats)) {
+    if (isString(formats)) {
+      formats = formats === 'all'
+        ? ['cjs', 'umd', 'es']
+        : splitStrByComma(formats)
+    } else if (!isArray(formats)) {
       throw new TypeError('Expect "format" to be a string or Array')
     }
 
     // Ensure compress is an array
-    if (typeof options.compress === 'string') {
-      options.compress = options.compress.split(',').map(v => v.trim())
+    if (isString(options.compress)) {
+      options.compress = splitStrByComma(options.compress)
     } else if (options.compress === true) {
-      // Currently uglifyjs cannot compress es format
-      options.compress = ['cjs', 'umd', 'iife']
-    } else if (!Array.isArray(options.compress)) {
+      options.compress = ['cjs', 'umd', 'iife'] // Currently uglifyjs cannot compress es format
+    } else if (!isArray(options.compress)) {
       throw new TypeError('Expect "compress" to be a string/true or Array')
     }
 
     options.compress = options.compress
-      .filter(v => formats.indexOf(v) > -1)
+      .filter(v => formats.includes(v))
       .map(v => `${v}Compress`)
 
     const allFormats = [...formats, ...options.compress]
