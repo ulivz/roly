@@ -69,9 +69,8 @@ function singleRoly(options = {}) {
     // Ensure format is an array
     let formats = options.format
     if (isString(formats)) {
-      formats = formats === 'all'
-        ? ['cjs', 'umd', 'es']
-        : splitStrByComma(formats)
+      formats =
+        formats === 'all' ? ['cjs', 'umd', 'es'] : splitStrByComma(formats)
     } else if (!isArray(formats)) {
       throw new TypeError('Expect "format" to be a string or Array')
     }
