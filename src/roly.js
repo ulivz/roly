@@ -37,9 +37,13 @@ function readInPkg(file) {
   }
 }
 
-function singleRoly(options = {}) {
+function singleRoly(rawOptions = {}) {
   return new Promise(resolve => {
-    options = Object.assign(
+    if (typeof rawOptions.input === 'undefined') {
+      delete rawOptions.input
+    }
+
+    const options = Object.assign(
       {
         input: './src/index.js',
         format: ['cjs'],
@@ -47,7 +51,7 @@ function singleRoly(options = {}) {
         filename: 'index',
         compress: []
       },
-      options
+      rawOptions
     )
 
     // for backward-compat
@@ -88,11 +92,12 @@ function singleRoly(options = {}) {
       .filter(v => formats.includes(v))
       .map(v => `${v}Compress`)
 
-    const allFormats = [...formats, ...options.compress]
-    resolve(allFormats)
-  }).then(allFormats => {
+    options.allFormats = [...formats, ...options.compress]
+
+    resolve(options)
+  }).then(options => {
     return Promise.all(
-      allFormats.map(format => {
+      options.allFormats.map(format => {
         const rollupOptions = getRollupOptions(options, format)
 
         if (options.watch) {
@@ -132,7 +137,7 @@ function singleRoly(options = {}) {
       })
     ).then(result => {
       return result.reduce((res, next, i) => {
-        res[allFormats[i]] = next
+        res[options.allFormats[i]] = next
         return res
       }, {})
     })

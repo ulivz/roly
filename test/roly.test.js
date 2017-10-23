@@ -37,6 +37,16 @@ describe('roly', () => {
     expect(files).toEqual(['package-name.common.js'])
   })
 
+
+  test('it should use src/index.js as a default input', async () => {
+    await roly({
+      baseDir: 'fixtures/default-input',
+      exports: 'named',
+    })
+    const files = await fs.readdir(cwd(`fixtures/default-input/dist`))
+    expect(files).toEqual(['index.common.js'])
+  })
+
   /**
    * When package's name and roly.filename exist at the same time, use roly.filename
    */

@@ -42,6 +42,7 @@ export const isAbsolutePath = path.isAbsolute
  * Handle rollup error
  */
 export function handleRollupError(error) {
+  console.log('123213')
   log(error.plugin || 'error', error.message, chalk.red)
   if (error.id) {
     console.log(chalk.dim(`Location: ${error.id}`))
