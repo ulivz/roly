@@ -12,6 +12,8 @@
 
 ## Introduction
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/ulivz/roly.svg)](https://greenkeeper.io/)
+
 Running command `roly` it will compile `src/index.js` to:
 
 ```bash
