@@ -61,7 +61,7 @@
     ]
   },
   "dependencies": {
-    "cac": "^4.2.0",
+    "cac": "^5.0.11",
     "camelcase": "^4.1.0",
     "chalk": "^2.1.0",
     "fancy-log": "^1.2.0",
